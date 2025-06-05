@@ -1,0 +1,50 @@
+table{
+    background-color: black;
+    color: white;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    border-collapse: collapse;
+    font-size: 2em;
+    transition-duration: opacity 0.10s ;
+
+}
+
+tr{
+    height: 16.02vh;
+    background-color: #312e30;
+}
+
+td{
+    width: 25vw;
+    border: 1px solid #312e30;
+}
+
+#inputBox{
+    text-align: right;
+    color: white;
+    width: 100%;
+    background-color:#312e30;
+    font-size: 3em;
+    border: 0;
+}
+
+.digitBtn{
+    background-color:#696568;
+}
+.digitBtn:active{
+    opacity: 0.5;
+}
+
+.btnOperators{
+    background-color: orange;
+}
+.btnOperators:active{
+    opacity: 0.5;
+}
+
+.ACBtn{
+    background-color: #312e30 ;
+}
+.ACBtn:active{
+    opacity: 0.4;
+}
