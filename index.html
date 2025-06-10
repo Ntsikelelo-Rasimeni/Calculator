@@ -9,7 +9,10 @@
         <table border="1">
             <tr>
                 <td colspan="4">
-                    <input type="text" id="inputBox" value="0"> 
+                    <button id="hamburgerBtn">&#9776;</button>
+                    <input type="text" id="inputBox" value="0">
+                    
+                </td>
             </tr>
             <tr>
                 <td class="digitBtn" onclick="digitBtnPressed(7)">7</td>
@@ -30,8 +33,8 @@
                 <td class="btnOperators" onclick="operatorBtnPressed('+')">+</td>
             </tr>
             <tr>
-                <td class="digitBtn" colspan="" onclick="digitBtnPressed(0)">0</td>
-                <td class="digitBtn" onclick="digitBtnPressed(',')">,</td>
+                <td class="digitBtn" onclick="digitBtnPressed(0)">0</td>
+                <td class="digitBtn" onclick="digitBtnPressed('.')">.</td>
                 <td class="ACBtn" onclick="btnACPressed()">AC</td>
                 <td class="btnOperators" onclick="operatorBtnPressed('/')">/</td>
             </tr>
@@ -40,58 +43,60 @@
             </tr>
         </table> 
 
+        <!-- History area -->
+        <div id="history" class="hidden">
+            <strong>History:</strong><br>
+        </div>
+
         <script>
-            var newLine = true; //Boolean var, determines when a user starts pressing any buttons zero needs to be disappear.
+            var newLine = true; 
             var value1; 
             var currentOperator; 
-            //Event handler for when any digital button is pressed
+
             function digitBtnPressed (button){
                 if(newLine){ 
-                    document.getElementById("inputBox").value = button; // if a user press a button, then blank everything else and print the button pressed
-                    newLine = false; // as long as a newLine is false, it will keep concatinating every button pressed.
+                    document.getElementById("inputBox").value = button; 
+                    newLine = false; 
                 } 
                 else {
                     var currentValue = document.getElementById("inputBox").value;
-                    document.getElementById("inputBox").value = currentValue + button; // when a user click on any button that button will appear on the screen (inputBox).
+                    document.getElementById("inputBox").value = currentValue + button; 
                 }
             }
-                //Event handler for when AC button is pressed
-                function btnACPressed(){
-                    document.getElementById("inputBox").value = 0;
-                    newLine = true;
-                }
 
-                //Event handler for when any operator button is pressed
-                function operatorBtnPressed(operator){
-                    currentOperator = operator;
-                    value1 = parseInt(document.getElementById("inputBox").value);
-                    newLine = true;
-                }
+            function btnACPressed(){
+                document.getElementById("inputBox").value = 0;
+                newLine = true;
+            }
 
-                //Event handler for when equal button is pressed
-                function equalBtnPressed(){
-                    var value2 = parseInt(document.getElementById("inputBox").value); //value in the inputBox will be converted into integer and store in value2  
-                    var finalTotal;
-                    
-                    switch (currentOperator){
-                        case "+":
-                            finalTotal = value1 + value2;
-                            break
-                        case "-":
-                            finalTotal = value1 - value2;
-                            break
-                        case "x":
-                            finalTotal = value1 * value2;
-                            break
-                        case "/":
-                            finalTotal = value1 / value2;
-                            break    
-                    }
-                    document.getElementById("inputBox").value = finalTotal;
-                    value = 0;
-                    newLine = true;
-                }
+            function operatorBtnPressed(operator){
+                currentOperator = operator;
+                value1 = parseFloat(document.getElementById("inputBox").value); // use parseFloat to handle decimal numbers
+                newLine = true;
+            }
 
+            function equalBtnPressed(){
+                var value2 = parseFloat(document.getElementById("inputBox").value); 
+                
+                var operations = {
+                    "+": (a, b) => a + b,
+                    "-": (a, b) => a - b,
+                    "x": (a, b) => a * b,
+                    "/": (a, b) => a / b
+                };
+
+                var finalTotal = operations[currentOperator](value1, value2);
+                document.getElementById("inputBox").value = finalTotal;
+
+                // Append result to history
+                document.getElementById("history").innerHTML += value1 + " " + currentOperator + " " + value2 + " = " + finalTotal + "<br>";
+
+                newLine = true;
+            }
+                document.getElementById("hamburgerBtn").addEventListener("click", function() {
+                var historyDiv = document.getElementById("history");
+                historyDiv.classList.toggle("hidden");
+            });
         </script>
     </body>
 </html>
